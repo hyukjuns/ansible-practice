@@ -1,0 +1,25 @@
+---
+- name: Deploy apache service
+  hosts: web
+  become: true
+  tasks:
+    - name: Include tasks
+      include_tasks: tasks/pkg_install.yml
+    - name: config index.html
+      copy:
+        src: index.html
+        dest: /var/www/html/
+        notify:
+          - restart httpd
+  handlers:
+    - name: restart {{ svc_name }}
+      service:
+        name: "{{ svc_name }}"
+        state: restarted
+
+- name: Deploy Database
+  hosts: db
+  become: yes
+  tasks:
+    - name: Include tasks
+      include_tasks: tasks/pkg_install.yml

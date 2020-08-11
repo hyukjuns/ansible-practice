@@ -1,0 +1,53 @@
+---
+- name: Deploy apapche service
+  hosts: web
+  become: true
+  remote_user: user
+  tasks:
+    - name: install httpd
+      yum:
+        name: httpd
+        state: latest
+    - name: start httpd
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+    - name: config index.html
+      copy:
+        src: index.html
+        dest: /var/www/html/
+        notify:
+          - restart httpd
+    - name: open firewalld
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled
+        immediate: yes
+  handlers:
+    - name: restart httpd
+      service:
+        name: httpd
+        state: restarted
+
+- name: Deploy Database
+  hosts: db
+  remote_user: user
+  become: yes
+  tasks:
+    - name: Install mariadb-server
+      yum:
+        name: mariadb-server
+        state: latest
+    - name: Start mariadb
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+    - name: Open firewalld
+      firewalld:
+        service: mysql
+        permanent: yes
+        state: enabled
+        immediate: yes

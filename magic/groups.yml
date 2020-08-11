@@ -1,0 +1,8 @@
+---
+- name: display groups
+  hosts: host1
+  gather_facts: no
+  tasks:
+    - name: groups debug
+      debug:
+        var: groups.datacenter
