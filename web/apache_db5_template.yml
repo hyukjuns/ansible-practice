@@ -1,0 +1,9 @@
+# 템플릿 사용 예시
+---
+- name: displau fact
+  hosts: all
+  tasks:
+    - name: Template set
+      template:
+        src: testTemplate.j2
+        dest: output.txt
