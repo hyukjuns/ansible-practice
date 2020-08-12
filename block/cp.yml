@@ -1,0 +1,8 @@
+---
+- name: cp nopasswd file to /etc/sudoers.d
+  hosts: host3
+  tasks:
+    - copy:
+        src: nopasswd
+        dest: /etc/sudoers.d/
+      become: true

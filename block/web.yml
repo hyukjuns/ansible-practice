@@ -1,0 +1,47 @@
+---
+- name: Apache install CentOS and Ubuntu
+  hosts: web
+  tasks:
+    - block:
+        - name: Install Httpd
+          yum:
+            name: httpd
+            state: latest
+        # - name: Copy index.html
+        #   copy:
+        #     src: index.html
+        #     dest: /var/www/html/
+        - name: Start httpd
+          service:
+            name: httpd
+            state: started
+            enabled: yes
+        - name: Open http service
+          firewalld:
+            serivce: http
+            permanet: yes
+            state: enabled
+            immediate: yes
+      when: ansible_distribution == "CentOS"
+      remote_user: user
+    - block:
+        - name: Install apache2
+          apt:
+            name: apache
+            state: latest
+        - name: Copy index.html
+          copy:
+            src: index.html
+            dest: /var/www/html/index.html
+        - name: Start apache2
+          service:
+            name: apache2
+            state: started
+            enabled: yes
+        - name: Open apache2 service
+          ufw:
+            rule: allow
+            name: apache2
+            state: enabled
+      when: ansible_distribution == "Ubuntu"
+      remote_user: devops

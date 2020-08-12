@@ -1,0 +1,12 @@
+---
+- name: Template_test
+  hosts: host1
+  vars:
+    cccr_users:
+      - user1
+      - user2
+      - user3
+  tasks:
+    - template:
+        src: first_template.j2
+        dest: /tmp/template

@@ -1,0 +1,20 @@
+---
+- name: Add user by loop
+  hosts: host1
+  become: yes
+  gather_facts: no
+  vars:
+    names:
+      - "testuser1"
+      - "testuser2"
+    gro:
+      - "wheel"
+  tasks:
+    - name: Start useradd
+      user:
+        name: "{{ item[0] }}"
+        state: present
+        groups: "{{ item[1] }}"
+      with_nested:
+        - "{{ names }}"
+        - "{{ gro }}"
