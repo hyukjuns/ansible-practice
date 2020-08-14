@@ -1,0 +1,66 @@
+- name: Uninstall old versions
+  apt:
+    name: 
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+- name: SET UP THE REPOSITORY - apt update
+  apt: 
+    update_cache: yes
+    force_apt_get: yes
+    cache_valid_time: 3600
+- name: SET UP THE REPOSITORY - apt install
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+    state: latest
+    update_cache: yes
+- name: Add Docker’s official GPG key - Download key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+- name: Check & use releas version
+  shell: lsb_release -cs
+  register: release
+- name: Add Docker’s official GPG key - Add stable repo
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu {{ release.stdout }} stable
+    state: present
+- name: INSTALL DOCKER ENGINE - apt update
+  apt: 
+    update_cache: yes
+    force_apt_get: yes
+    cache_valid_time: 3600
+- name: INSTALL DOCKER ENGINE - apt install
+  apt: 
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+    update_cache: yes
+  # docker 모듈 사용하기 위해 epel repo와 pip 설치
+        # docker 모듈 사용하기 위해 epel repo와 pip 설치
+# docker 모듈 사용하기 위해 epel repo와 pip 설치
+# - name: Install epel
+#   apt:
+#     name: epel-release
+#     state: present
+- name: Install pip
+  apt:
+    name: python3-pip
+    state: present
+- name: Pip install docker
+  pip:
+    name: docker
+- name: Create a test container
+  docker_container:
+    name: hello-world
+    image: hello-world

@@ -1,0 +1,47 @@
+- name: Uninstall old versions
+  yum:
+    name: 
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate
+      - docker-engine
+    state: removed
+- name: SET UP THE REPOSITORY - Install yum-utils
+  yum:
+    name: yum-utils
+    state: present
+- name: SET UP THE REPOSITORY - Add repository
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docer-ce.repo
+- name: INSTALL DOCKER ENGINE
+  yum:
+    name: 
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+- name: Start docker
+  service:
+    name: docker
+    state: started
+    enabled: yes
+# docker 모듈 사용하기 위해 epel repo와 pip 설치
+- name: Install epel
+  yum:
+    name: epel-release
+    state: latest
+- name: Install pip
+  yum:
+    name: python-pip
+    state: present
+- name: Pip install docker
+  pip:
+    name: docker
+- name: Create a test container
+  docker_container:
+    name: hello-world
+    image: hello-world
