@@ -1,0 +1,9 @@
+---
+- name: Its Variable Test File
+  hosts: host1
+  tasks:
+    debug:
+      msg: test 
+      include_vars: 
+        dir: vars/test_var.yml
+        name: zz

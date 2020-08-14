@@ -1,0 +1,17 @@
+---
+- name: handler example
+  hosts: host1
+  tasks:
+    - name: first tasks
+      command: id
+      notify:
+        - first handler
+    - name: second tasks
+      command: id
+      notify:
+        - second handler
+  handlers:
+    - name: first handler
+      command: echo "im first handler"
+    - name: second handler
+      command: echo "im second handler"

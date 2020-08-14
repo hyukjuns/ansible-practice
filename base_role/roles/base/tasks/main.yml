@@ -1,0 +1,5 @@
+---
+# tasks file for roles/base
+- name: Its tasks role
+  debug:
+    msg: "its tasks role"
