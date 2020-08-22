@@ -1,0 +1,16 @@
+---
+- name: loop_when_quiz example
+  hosts: host1
+  gather_facts: no
+  vars:
+    target: one
+  tasks:
+    - shell: "echo {{ item }}"
+      loop:
+        - "one"
+        - "two"
+      register: echo
+    - debug:
+        msg: "{{ item.stdout }}"
+      when: target == item.stdout
+      loop: "{{ echo.results }}"

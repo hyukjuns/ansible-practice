@@ -1,0 +1,5 @@
+---
+# tasks file for roles/go
+- name: Its go role
+  debug:
+    msg: "Its go's role"

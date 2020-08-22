@@ -1,0 +1,35 @@
+---
+- name: virtual host web
+  hosts: host1
+  remote_user: user
+  become: yes
+  vars:
+    wport: 8080
+  tasks:
+    - name: Install httpd
+      yum:
+        name: httpd
+        state: latest
+    - name: Start httpd
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+    - name: Template file
+      template:
+        src: 01-vhost.conf
+        dest: /etc/httpd/conf.d/
+      notify:
+        - restart httpd
+    - name: Open firewalld
+      firewalld:
+        #service: http
+        port: 8080/tcp
+        permanent: yes
+        state: enabled
+        immediate: yes
+  handlers:
+    - name: restart httpd
+      service:
+        name: httpd
+        state: restarted

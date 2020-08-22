@@ -1,0 +1,6 @@
+hostname is {{ ansible_facts.hostname}}
+fqdn is {{ ansible_facts.fqdn }}
+IP ADDRESS is {{ ansible_facts.default_ipv4.address }}
+mount info is {{ ansible_facts.mounts }}
+memory is {{ ansible_facts.memory_mb }}
+bios info is {{ ansible_facts.bios_version }}

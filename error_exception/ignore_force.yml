@@ -1,0 +1,31 @@
+---
+# ignore_errors 로 인해 작업중 오류가 발생해도 무시하고 이후 작업을 진행하므로 아래 작업까지 모두 완료됨, 따라서 핸들러도 동작 완료
+# force_handlers 로 인해 작업중 오류가 발생해도 플레이북을 빠져나가지 않고 이전에 notify를 받은 핸들러를 실행시키고 종료 
+- name: Ignore_Force test
+  hosts: host1
+  gather_facts: no
+  force_handlers: yes
+  tasks:
+    - name: First Debug
+      debug:
+        msg: "Its First debug"
+      changed_when: true
+      notify:
+        - first handler
+    - name: Failed Yum
+      yum:
+        name: nonono
+      #ignore_errors: yes
+    - name: Second Debug
+      debug:
+        msg: "Its Second debug"
+      changed_when: true
+      notify:
+        - second handler
+  handlers:
+    - name: first handler
+      debug:
+        msg: "Im first handler"
+    - name: second handler
+      debug:
+        msg: "Im second handler"

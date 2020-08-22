@@ -1,0 +1,57 @@
+---
+- name: Deploy apapche service
+  hosts: web
+  become: true
+  remote_user: user
+  vars_files:
+    - vars/web_var.yml
+  tasks:
+    - name: "{{ pkg_name }} will be installed" # " " 인자 1개
+      yum:
+        name: "{{ pkg_name }}" # { } 로 시작하는 value는 " " 처리
+        state: latest
+    - name: start {{ svc_name }}
+      service:
+        name: "{{ svc_name }}"
+        state: started
+        enabled: yes
+    - name: config index.html
+      copy:
+        src: index.html
+        dest: /var/www/html/
+        notify:
+          - restart httpd
+    - name: Open {{ fw_name }}
+      firewalld:
+        service: "{{ fw_name }}"
+        permanent: yes
+        state: enabled
+        immediate: yes
+  handlers:
+    - name: restart {{ svc_name }}
+      service:
+        name: "{{ svc_name }}"
+        state: restarted
+
+- name: Deploy Database
+  hosts: db
+  remote_user: user
+  become: yes
+  vars_files:
+    - vars/db_var.yml
+  tasks:
+    - name: "{{ pkg_name }} will be installed"
+      yum:
+        name: "{{ pkg_name }}"
+        state: latest
+    - name: Start {{ svc_name }}
+      service:
+        name: "{{ svc_name }}"
+        state: started
+        enabled: yes
+    - name: Open {{ fw_name }}
+      firewalld:
+        service: "{{ fw_name }}"
+        permanent: yes
+        state: enabled
+        immediate: yes

@@ -1,0 +1,21 @@
+---
+# tasks file for roles/base
+- name: "{{ pkg_name }} will be installed" # " " 인자 1개
+  yum:
+    name: "{{ pkg_name }}" # { } 로 시작하는 value는 " " 처리
+    state: latest
+- name: start {{ svc_name }}
+  service:
+    name: "{{ svc_name }}"
+    state: started
+    enabled: yes
+- name: Open {{ fw_name }}
+  firewalld:
+    service: "{{ fw_name }}"
+    permanent: yes
+    state: enabled
+    immediate: yes
+- name: config index.html
+  copy:
+    src: index.html
+    dest: /var/www/html/

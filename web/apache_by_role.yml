@@ -1,0 +1,8 @@
+---
+- name: Deploy Apache by role
+  hosts: web
+  become: true
+  remote_user: user
+  roles:
+    - role: base
+      include_vars: vars/web_var.yml

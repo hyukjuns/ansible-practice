@@ -1,0 +1,8 @@
+---
+- name: display hostvars
+  hosts: host1
+  gather_facts: no
+  tasks:
+    - name: hostvar debug
+      debug:
+        var: hostvars

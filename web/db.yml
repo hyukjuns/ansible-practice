@@ -1,0 +1,21 @@
+---
+- name: Deploy Database
+  hosts: db
+  remote_user: user
+  become: yes
+  tasks:
+    - name: Install mariadb
+      yum:
+        name: mariadb-server
+        state: latest
+    - name: Start mariadbd
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+    - name: Open firewalld
+      firewalld:
+        service: mysql
+        permanent: yes
+        state: enabled
+        immediate: yes

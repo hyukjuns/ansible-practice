@@ -1,0 +1,7 @@
+---
+- name: displau fact
+  hosts: host1
+  tasks:
+    - name: msg
+      debug:
+        var: ansible_facts

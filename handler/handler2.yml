@@ -1,0 +1,19 @@
+---
+- name: handler example2
+  hosts: host1
+  gather_facts: no
+  tasks:
+    - name: first tasks
+      command: id
+      notify:
+        - second handler
+      #changed_when: false
+    - name: second tasks
+      command: id
+      notify:
+        - first handler
+  handlers:
+    - name: first handler
+      command: echo "im first handler"
+    - name: second handler
+      command: echo "im second handler"

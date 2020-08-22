@@ -1,0 +1,7 @@
+---
+- name: Variable Test
+  hosts: web
+  tasks:
+    - name: Print group_names
+      debug:
+        var: inventory_hostname
