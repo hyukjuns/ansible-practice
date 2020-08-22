@@ -11,9 +11,10 @@ Ansible 사용 연습
 - etc...
 
 ### scenario: Install Docker in CentOS7 and Ubuntu 18.04
-[linkto][https://github.com/namhj94/Ansible/tree/master/install_docker]
+Link: [install docker][linkto]
+[linkto]: https://github.com/namhj94/Ansible/tree/master/install_docker
 
 ### scenario: HAProxy Configuration by ansible
-[linkto][https://github.com/namhj94/Ansible/tree/master/exam]
-
+Link: [HAProxy][linkto]
+[linkto]: https://github.com/namhj94/Ansible/tree/master/exam
 
