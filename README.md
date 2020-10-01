@@ -10,7 +10,7 @@ Ansible 사용 연습
 - handler
 - etc...
 
-## Deploy Scenarios 
+## Deploy Scenarios
 ### scenario1: Install Docker in CentOS7 and Ubuntu 18.04
 Link: [install docker][linkto1]
 
@@ -19,11 +19,11 @@ Link: [install docker][linkto1]
 ### scenario2: HAProxy Configuration by ansible
 Link: [HAProxy][linkto2]
 
-[linkto2]: https://github.com/namhj94/Ansible/tree/master/exam
+[linkto2]: https://github.com/namhj94/Ansible-HAProxy
 
 ## Ansible 공부순서
 1. Ansible 이란
-2. Ansible 설치 
+2. Ansible 설치
     - Ansible 구성요소
 
     > 인벤토리, 컨트롤노드, 관리노드, 플러그인
